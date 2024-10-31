@@ -1,0 +1,103 @@
+body {
+  font-family: "Rockstar", sans-serif;
+  text-align: center;
+  margin: 0;
+  height: 100vh; /* Full viewport height */
+  display: flex; /* Use flexbox to position children */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center;
+  align-items: center;
+  background-image: url("/assets/homeBackground.png"); /* Replace with your image URL */
+  background-size: cover;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;
+  color: #dbdbdb;
+  flex-direction: column;
+}
+
+/* Use this class for fade-out when leaving the page */
+
+h1 {
+  margin-bottom: 20px;
+}
+h2 {
+  margin-bottom: 20px;
+  font-family: "Rockstar", sans-serif;
+}
+Lato .deck-section {
+  margin: 20px 0; /* Add margins for spacing */
+  padding-bottom: 20px; /* Additional padding from the bottom */
+}
+
+/* Center the deck horizontally */
+.deck-section ul {
+  display: flex; /* Make list horizontal */
+  justify-content: center; /* Center items horizontally */
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  gap: 20px; /* Space between cards */
+}
+
+.container {
+  position: relative;
+  top: 60px;
+  flex-direction: column;
+}
+
+#result {
+  font-size: 1.2em;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+#chosen-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+#p1-card,
+#p2-card {
+  width: 150px;
+  height: 210px;
+  border-radius: 10px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.img {
+  width: 30%; /* Set a fixed width */
+  height: auto;
+}
+
+/* Styling for individual cards */
+
+.cool-button {
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  text-align: center;
+  background: linear-gradient(145deg, #e0e0e0, #cfcfcf);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cool-button:hover {
+  background: linear-gradient(145deg, #cfcfcf, #bdbdbd);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.cool-button:active {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <div class="page">
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Card Battle Game</title>
+      <link rel="stylesheet" href="../css/style.css" />
+      <link rel="stylesheet" href="../css/cardStyle.css" />
+    </head>
+  
+    <body>
+      <div id="player-1-deck" class="container">
+        <h2 class="bottom-center">Player 1's Turn</h2>
+        <div id="deck-p1" class="bottom-center"></div>
+      </div>
+  
+      <div id="player-2-deck" class="container" style="display: none">
+        <h2 class="bottom-center">Player 2's Turn</h2>
+        <div id="deck-p2" class="bottom-center"></div>
+      </div>
+  
+      <div id="result" style="display: none">
+        <h2>Result</h2>
+        <div id="chosen-cards">
+          <div id="p1-card"></div>
+          <div id="p2-card"></div>
+          <h1 id="score"></h1>
+        </div>
+        <p id="outcome"></p>
+      </div>
+      <div id="final-result" style="display: none">
+      </div>
+
+
+  
+      <script type="module" src="../scripts/script.js"></script>
+      
+    </div>
+
+  </body>
+</html>
