@@ -7,6 +7,8 @@ import {
   predefinedDecks
 } from './constants.js';
 
+
+
 let secondsToSwitch = Number(localStorage.getItem("secondsToSwitch")) || 3;
 let timeoutSecs = secondsToSwitch * 1000;
 console.log(secondsToSwitch);
