@@ -1,75 +1,29 @@
-import { secondsToSwitch } from "./settings";
+import {
+  suits,
+  values,
+  cardValues,
+  relationships,
+  totalRounds,
+  predefinedDecks
+} from './constants.js';
 
-const suits = ["Hearts", "Spades", "Diamonds", "Clubs"];
-const values = ["Jack", "Queen", "King", "Ace"];
-const cardValues = { Jack: 11, Queen: 12, King: 13, Ace: 14 };
-const relationships = {
-  Hearts: "Spades",
-  Spades: "Diamonds",
-  Diamonds: "Clubs",
-  Clubs: "Hearts",
-};
+let secondsToSwitch = Number(localStorage.getItem("secondsToSwitch")) || 3;
+let timeoutSecs = secondsToSwitch * 1000;
+console.log(secondsToSwitch);
+
+let gametype = localStorage.getItem("mode") || "normal";
 
 let player1Deck = [];
 let player2Deck = [];
-
-let player1Choice = null;
-let player2Choice = null;
-
-console.log("Game Started");
-
-let gametype = "normal";
-
-let timeoutSecs = secondsToSwitch * 1000;
 
 let p1Points = 0;
 let p2Points = 0;
 
 let currentRound = 0;
-const totalRounds = 5;
 
-const predefinedDecks = [
-  // Aggressor deck
-  [
-    { suit: "Joker", value: "Joker" },
-    { suit: "Spades", value: "Ace" },
-    { suit: "Hearts", value: "King" },
-    { suit: "Diamonds", value: "Queen" },
-    { suit: "Clubs", value: "Jack" },
-  ],
-  // Balanced Blade deck
-  [
-    { suit: "Joker", value: "Joker" },
-    { suit: "Hearts", value: "Ace" },
-    { suit: "Spades", value: "Queen" },
-    { suit: "Diamonds", value: "King" },
-    { suit: "Clubs", value: "Jack" },
-  ],
-  // Wildcard deck
-  [
-    { suit: "Joker", value: "Joker" },
-    { suit: "Diamonds", value: "Ace" },
-    { suit: "Clubs", value: "King" },
-    { suit: "Hearts", value: "Queen" },
-    { suit: "Spades", value: "Jack" },
-  ],
-  //  Defender deck
-  [
-    { suit: "Joker", value: "Joker" },
-    { suit: "Clubs", value: "Ace" },
-    { suit: "Diamonds", value: "King" },
-    { suit: "Spades", value: "Queen" },
-    { suit: "Hearts", value: "Jack" },
-  ],
-  //  Gambit deck
-  [
-    { suit: "Joker", value: "Joker" },
-    { suit: "Hearts", value: "Ace" },
-    { suit: "Spades", value: "King" },
-    { suit: "Clubs", value: "Queen" },
-    { suit: "Diamonds", value: "Jack" },
-  ],
-];
+let player1Choice = null;
+let player2Choice = null;
+
 
 if (gametype == "normal") {
   player1Deck = generateDeck();
@@ -167,13 +121,13 @@ function showResult() {
 
   p1CardDiv.style.backgroundImage =
     player1Choice.suit === "Joker"
-      ? `url('assets/joker.png')`
-      : `url('assets/${player1Choice.value}_of_${player1Choice.suit}.png')`;
+      ? `url('../assets/joker.png')`
+      : `url('../assets/${player1Choice.value}_of_${player1Choice.suit}.png')`;
 
   p2CardDiv.style.backgroundImage =
     player2Choice.suit === "Joker"
-      ? `url('assets/joker.png')`
-      : `url('assets/${player2Choice.value}_of_${player2Choice.suit}.png')`;
+      ? `url('../assets/joker.png')`
+      : `url('../assets/${player2Choice.value}_of_${player2Choice.suit}.png')`;
 
   const outcome = determineWinner(player1Choice, player2Choice);
   document.getElementById("outcome").textContent = outcome;

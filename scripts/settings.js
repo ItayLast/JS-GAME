@@ -1,10 +1,37 @@
-const slider = document.getElementById("mySlider");
-const sliderValue = document.getElementById("sliderValue");
 
-export let secondsToSwitch;
-export let gametype;
+ let secondsToSwitch;
 
-slider.addEventListener("input", function () {
-  secondsToSwitch = this.value;
-  sliderValue.textContent = secondsToSwitch; // Update the displayed value
+document.addEventListener("DOMContentLoaded", () => {
+  const slider = document.getElementById("mySlider");
+  const sliderValue = document.getElementById("sliderValue");
+
+  if (slider && sliderValue) {
+     let sValue = Number(localStorage.getItem("secondsToSwitch")) || 3;
+     slider.value = sValue;
+     sliderValue.textContent = sValue;
+      slider.addEventListener("input", function () {
+          secondsToSwitch = this.value;
+          localStorage.setItem("secondsToSwitch" , secondsToSwitch);
+          sliderValue.textContent = secondsToSwitch;
+      });
+  }
+});
+
+let gametype = localStorage.getItem("mode") || "normal";
+let checkBox = document.getElementById("gameModeToggle");
+let checkBoxText = document.getElementById("gameModeLabel");
+
+if(gametype == "crazy"){
+  checkBox.checked = true;
+  checkBoxText.textContent =  "Crazy";
+}
+
+checkBox.addEventListener("change", function () {
+    
+    gametype = this.checked ? "crazy" : "normal";
+    checkBoxText.textContent = gametype === "normal" ? "Normal Mode" : "Crazy Mode";
+    localStorage.setItem("mode" , gametype)
+    
+    // Optional: log the current game mode
+    console.log("Game type is now:", gametype);
 });
