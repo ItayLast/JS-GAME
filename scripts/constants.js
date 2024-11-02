@@ -8,14 +8,13 @@ export const relationships = {
   Clubs: "Hearts",
 };
 export const totalRounds = 5;
-export const timeoutSecs = 300;
 export const predefinedDecks = [
   [
     { suit: "Joker", value: "Joker" },
     { suit: "Spades", value: "Ace" },
     { suit: "Hearts", value: "King" },
-    { suit: "Diamonds", value: "Queen" },
     { suit: "Clubs", value: "Jack" },
+    { suit: "Diamonds", value: "Queen" },
   ],
   [
     { suit: "Joker", value: "Joker" },
