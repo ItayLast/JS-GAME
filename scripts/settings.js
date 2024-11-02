@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let gametype = localStorage.getItem("mode") || "normal";
-let checkBox = document.getElementById("gameModeToggle");
-let checkBoxText = document.getElementById("gameModeLabel");
+const checkBox = document.getElementById("gameModeToggle");
+const checkBoxText = document.getElementById("gameModeLabel");
 
 if(gametype == "crazy"){
   checkBox.checked = true;
