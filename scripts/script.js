@@ -4,10 +4,10 @@ import {
   cardValues,
   relationships,
   totalRounds,
-  predefinedDecks
-} from './constants.js';
+  predefinedDecks,
+} from "./constants.js";
 
-
+import { blurIn, blurOut } from "./animations.js";
 
 let secondsToSwitch = Number(localStorage.getItem("secondsToSwitch")) || 3;
 let timeoutSecs = secondsToSwitch * 1000;
@@ -25,7 +25,6 @@ let currentRound = 0;
 
 let player1Choice = null;
 let player2Choice = null;
-
 
 if (gametype == "normal") {
   player1Deck = generateDeck();
@@ -92,7 +91,18 @@ function handlePlayer1Choice(card, index) {
   player1Choice = card;
   player1Deck.splice(index, 1);
   document.getElementById("player-1-deck").style.display = "none";
+
+  document.getElementById("switch").style.display = "flex";
+
+  document.getElementById("await").style.display = "flex";
+  document.getElementById("await").textContent = `(${secondsToSwitch} seconds)`;
+  blurOut();
+
   setTimeout(() => {
+    blurIn();
+    document.getElementById("await").style.display = "none";
+    document.getElementById("switch").style.display = "none";
+
     document.getElementById("player-2-deck").style.display = "flex";
     displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
   }, timeoutSecs);
