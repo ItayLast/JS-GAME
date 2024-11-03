@@ -102,9 +102,10 @@ function handlePlayer1Choice(card, index) {
     blurIn();
     document.getElementById("await").style.display = "none";
     document.getElementById("switch").style.display = "none";
-
-    document.getElementById("player-2-deck").style.display = "flex";
-    displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
+    setTimeout(() => {
+      document.getElementById("player-2-deck").style.display = "flex";
+      displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
+    }, 100);
   }, timeoutSecs);
 }
 
@@ -118,7 +119,7 @@ function handlePlayer2Choice(card, index) {
   if (currentRound < totalRounds) {
     setTimeout(() => {
       initializeGame();
-    }, timeoutSecs);
+    }, 3000);
   } else {
     showResult();
   }
