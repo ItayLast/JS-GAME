@@ -13,7 +13,6 @@
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;
-  opacity: 0;
 }
 
 #p1-card {
@@ -28,8 +27,8 @@
 
 .explosion {
   position: absolute;
-  width: 250px;
-  height: 250px;
+  width: 500px;
+  height: 500px;
   background-image: url("../assets/explosion.png"); /* Replace with your explosion image */
   background-size: cover;
   opacity: 0;

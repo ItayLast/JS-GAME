@@ -18,6 +18,9 @@ let gametype = localStorage.getItem("mode") || "normal";
 let player1Deck = [];
 let player2Deck = [];
 
+var Vine = new Audio("../assets/Vine.mp3");
+var bruh = new Audio("../assets/Bruh.mp3");
+
 let p1Points = 0;
 let p2Points = 0;
 
@@ -128,10 +131,11 @@ function handlePlayer2Choice(card, index) {
 }
 
 function showResult() {
-  document.getElementById("result").style.display = "block";
+  document.getElementById("result").style.display = "flex";
   const p1CardDiv = document.getElementById("p1-card");
   const p2CardDiv = document.getElementById("p2-card");
 
+  // Set background images for result cards
   p1CardDiv.style.backgroundImage =
     player1Choice.suit === "Joker"
       ? `url('../assets/joker.png')`
@@ -142,13 +146,35 @@ function showResult() {
       ? `url('../assets/joker.png')`
       : `url('../assets/${player2Choice.value}_of_${player2Choice.suit}.png')`;
 
-  const outcome = determineWinner(player1Choice, player2Choice);
-  document.getElementById("outcome").textContent = outcome;
+  // Trigger animations on result cards
+  p1CardDiv.style.animation = "flyInLeft 1s forwards";
+  p2CardDiv.style.animation = "flyInRight 1s forwards";
+
   if (currentRound == totalRounds) {
     const winner = p1Points > p2Points ? "Player 1" : "Player 2";
     const t = p1Points > p2Points ? p1Points-- : p1Points--;
     showFinalResult(winner);
   }
+  const outcome = determineWinner(player1Choice, player2Choice);
+
+  setTimeout(() => {
+    const explosionDiv = document.createElement("div");
+    explosionDiv.classList.add("explosion");
+    document.getElementById("result").appendChild(explosionDiv);
+
+    // Remove explosion after it plays, then display the outcome with a delay
+    setTimeout(() => {
+      explosionDiv.style.display = "none"; // Hide explosion
+
+      setTimeout(() => {}, 500); // Delay for the outcome after explosion disappears
+    }, 1000); // Explosion duration
+    Vine.play();
+    setTimeout(() => {
+      document.getElementById("outcome").textContent = outcome;
+      document.getElementById("outcome2").textContent = outcome;
+      bruh.play();
+    }, 3000);
+  }, 0); // Delay before explosion starts
   return outcome;
 }
 
