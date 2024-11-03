@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px; /* Space from the top */
+  margin-top: 50px;
 }
 
 .card {
@@ -16,12 +16,12 @@
 }
 
 #p1-card {
-  left: -200px; /* Start off-screen to the left */
+  left: -200px;
   animation: flyInLeft 1s forwards;
 }
 
 #p2-card {
-  right: -200px; /* Start off-screen to the right */
+  right: -200px;
   animation: flyInRight 1s forwards;
 }
 
@@ -29,7 +29,7 @@
   position: absolute;
   width: 500px;
   height: 500px;
-  background-image: url("../assets/explosion.png"); /* Replace with your explosion image */
+  background-image: url("../assets/explosion.png");
   background-size: cover;
   opacity: 0;
   animation: explode 0.5s ease-in-out forwards;
