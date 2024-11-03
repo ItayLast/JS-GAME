@@ -108,7 +108,7 @@ function handlePlayer1Choice(card, index) {
     setTimeout(() => {
       document.getElementById("player-2-deck").style.display = "flex";
       displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
-    }, 100);
+    }, 300);
   }, timeoutSecs);
 }
 
@@ -155,7 +155,6 @@ function showResult() {
     const t = p1Points > p2Points ? p1Points-- : p1Points--;
     showFinalResult(winner);
   }
-  const outcome = determineWinner(player1Choice, player2Choice);
 
   setTimeout(() => {
     const explosionDiv = document.createElement("div");
@@ -175,6 +174,8 @@ function showResult() {
       bruh.play();
     }, 3000);
   }, 0); // Delay before explosion starts
+  const outcome = determineWinner(player1Choice, player2Choice);
+
   return outcome;
 }
 
