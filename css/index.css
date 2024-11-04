@@ -2,20 +2,18 @@ body {
   font-family: "Rockstar", sans-serif;
   text-align: center;
   margin: 0;
-  height: 100vh; /* Full viewport height */
-  display: flex; /* Use flexbox to position children */
-  flex-direction: column; /* Stack children vertically */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("/assets/homeBackground.png"); /* Replace with your image URL */
+  background-image: url("/assets/homeBackground.png");
   background-size: cover;
-  background-position: center; /* Center the image */
+  background-position: center;
   background-repeat: no-repeat;
   color: #dbdbdb;
   flex-direction: column;
 }
-
-/* Use this class for fade-out when leaving the page */
 
 h1 {
   margin-bottom: 20px;
@@ -25,17 +23,16 @@ h2 {
   font-family: "Rockstar", sans-serif;
 }
 Lato .deck-section {
-  margin: 20px 0; /* Add margins for spacing */
-  padding-bottom: 20px; /* Additional padding from the bottom */
+  margin: 20px 0;
+  padding-bottom: 20px;
 }
 
-/* Center the deck horizontally */
 .deck-section ul {
-  display: flex; /* Make list horizontal */
-  justify-content: center; /* Center items horizontally */
-  list-style: none; /* Remove default bullet points */
+  display: flex;
+  justify-content: center;
+  list-style: none;
   padding: 0;
-  gap: 20px; /* Space between cards */
+  gap: 20px;
 }
 
 .container {
@@ -70,11 +67,9 @@ Lato .deck-section {
 }
 
 .img {
-  width: 30%; /* Set a fixed width */
+  width: 30%;
   height: auto;
 }
-
-/* Styling for individual cards */
 
 .cool-button {
   padding: 14px 28px;

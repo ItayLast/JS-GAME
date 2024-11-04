@@ -29,6 +29,10 @@ body::before {
   z-index: -1;
 }
 
+body.alt-background::before {
+  background-image: url("../assets/ecc2124116aa5a0ee1bc466c7b69dd8a.gif");
+}
+
 .blur-in::before {
   filter: blur(0);
   opacity: 1;
@@ -143,6 +147,9 @@ h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
+  display: block;
+  margin-top: 20px;
+  margin: 20px auto;
 }
 
 .cool-button:hover {

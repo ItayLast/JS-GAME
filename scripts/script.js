@@ -20,7 +20,9 @@ let player2Deck = [];
 
 var Vine = new Audio("../assets/Vine.mp3");
 var bruh = new Audio("../assets/Bruh.mp3");
+var zikokim = new Audio("../assets/Zik.mp3");
 
+zikokim.currentTime = 44;
 let p1Points = 0;
 let p2Points = 0;
 
@@ -37,12 +39,17 @@ if (gametype == "normal") {
   player2Deck = generatRandomeDeck();
 }
 
+function toggleBackground() {
+  document.body.classList.toggle("alt-background");
+}
+
 function initializeGame() {
   displayDeck("deck-p1", player1Deck, handlePlayer1Choice);
-  updateScoreDisplay();
   if (currentRound != 0) {
+    //THIS IS TO RESTART ROUND
     document.getElementById("result").style.display = "none";
     document.getElementById("player-1-deck").style.display = "flex";
+    updateScoreDisplay();
   }
 }
 
@@ -84,7 +91,7 @@ function displayDeck(deckId, deck, clickHandler) {
         : `url('../assets/${card.value}_of_${card.suit}.png')`;
 
     cardDiv.onclick = () => clickHandler(card, index);
-    deckDiv.appendChild(cardDiv); // displays
+    deckDiv.appendChild(cardDiv); // displays card by appending
   });
 }
 
@@ -93,10 +100,9 @@ function displayDeck(deckId, deck, clickHandler) {
 function handlePlayer1Choice(card, index) {
   player1Choice = card;
   player1Deck.splice(index, 1);
+
   document.getElementById("player-1-deck").style.display = "none";
-
   document.getElementById("switch").style.display = "flex";
-
   document.getElementById("await").style.display = "flex";
   document.getElementById("await").textContent = `(${secondsToSwitch} seconds)`;
   blurOut();
@@ -117,16 +123,16 @@ function handlePlayer2Choice(card, index) {
   player2Deck.splice(index, 1);
   document.getElementById("player-2-deck").style.display = "none";
   const outcome = showResult();
+
   currentRound++;
 
   if (currentRound < totalRounds) {
     setTimeout(() => {
       initializeGame();
-    }, 3000);
+    }, 5000);
   } else {
     showResult();
   }
-
   updateScoreDisplay();
 }
 
@@ -135,7 +141,7 @@ function showResult() {
   const p1CardDiv = document.getElementById("p1-card");
   const p2CardDiv = document.getElementById("p2-card");
 
-  // Set background images for result cards
+  // set background images for result cards
   p1CardDiv.style.backgroundImage =
     player1Choice.suit === "Joker"
       ? `url('../assets/joker.png')`
@@ -146,7 +152,7 @@ function showResult() {
       ? `url('../assets/joker.png')`
       : `url('../assets/${player2Choice.value}_of_${player2Choice.suit}.png')`;
 
-  // Trigger animations on result cards
+  // trigger animations on result cards
   p1CardDiv.style.animation = "flyInLeft 1s forwards";
   p2CardDiv.style.animation = "flyInRight 1s forwards";
 
@@ -161,43 +167,39 @@ function showResult() {
     explosionDiv.classList.add("explosion");
     document.getElementById("result").appendChild(explosionDiv);
 
-    // Remove explosion after it plays, then display the outcome with a delay
+    // remove explosion after it plays, then display the outcome with a delay
     setTimeout(() => {
       explosionDiv.style.display = "none"; // Hide explosion
 
-      setTimeout(() => {}, 500); // Delay for the outcome after explosion disappears
-    }, 1000); // Explosion duration
+      setTimeout(() => {}, 500); // delay for the outcome after explosion disappears
+    }, 1000); // explosion duration
     Vine.play();
     setTimeout(() => {
       document.getElementById("outcome").textContent = outcome;
       document.getElementById("outcome2").textContent = outcome;
       bruh.play();
     }, 3000);
-  }, 0); // Delay before explosion starts
+  }, 0); // delay before explosion starts
   const outcome = determineWinner(player1Choice, player2Choice);
 
   return outcome;
 }
 
 function showFinalResult(winner) {
-  // document.getElementById("result").style.display = "none";
   const finalResultDiv = document.getElementById("final-result");
   finalResultDiv.style.display = "block";
   finalResultDiv.textContent = ` ${winner} has won overall!`;
-
+  toggleBackground();
   const playAgainButton = document.createElement("button");
   playAgainButton.textContent = "Play Again";
   playAgainButton.className = "cool-button";
-  playAgainButton.style.margin = "20px auto";
-  playAgainButton.style.display = "block";
-  playAgainButton.style.marginTop = "20px"; // add margin to space it from text
-
-  // Add a click event listener to navigate to game.html
+  // add a click event listener to navigate to game.html
+  zikokim.play();
   playAgainButton.addEventListener("click", function () {
     window.location.href = "game.html";
   });
 
-  // Append the button to the final result div
+  // append the button to the final result div
   finalResultDiv.appendChild(playAgainButton);
 }
 
