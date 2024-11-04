@@ -36,8 +36,8 @@ if (gametype == "normal") {
 
 function initializeGame() {
   displayDeck("deck-p1", player1Deck, handlePlayer1Choice);
+  document.getElementById("result").style.display = "none";
   if (currentRound != 0) {
-    document.getElementById("result").style.display = "none";
     document.getElementById("player-1-deck").style.display = "flex";
     updateScoreDisplay();
   }
