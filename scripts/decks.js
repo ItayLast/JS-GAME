@@ -1,16 +1,4 @@
-import {
-  suits,
-  values,
-  cardValues,
-  relationships,
-  totalRounds,
-  predefinedDecks,
-  p1Points,
-  p2Points,
-  currentRound,
-  player1Choice,
-  player2Choice,
-} from "./constants.js";
+import { suits, values, predefinedDecks } from "./constants.js";
 
 export function generateDeck() {
   const randomIndex = Math.floor(Math.random() * predefinedDecks.length);

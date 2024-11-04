@@ -45,11 +45,3 @@ export const predefinedDecks = [
     { suit: "Diamonds", value: "Jack" },
   ],
 ];
-
-export let p1Points = 0;
-export let p2Points = 0;
-
-export let currentRound = 0;
-
-export let player1Choice = null;
-export let player2Choice = null;
