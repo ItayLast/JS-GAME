@@ -91,11 +91,11 @@ function handlePlayer2Choice(card, index) {
   if (currentRound < totalRounds) {
     setTimeout(() => {
       initializeGame();
+      updateScoreDisplay();
     }, 5000);
   } else {
     showResult();
   }
-  updateScoreDisplay();
 }
 
 function showResult() {
@@ -121,6 +121,8 @@ function showResult() {
     const t = p1Points > p2Points ? p1Points-- : p1Points--;
     showFinalResult(winner);
   }
+  const outcome = determineWinner(player1Choice, player2Choice);
+  updateScoreDisplay();
 
   setTimeout(() => {
     const explosionDiv = document.createElement("div");
@@ -128,17 +130,14 @@ function showResult() {
     document.getElementById("result").appendChild(explosionDiv);
     setTimeout(() => {
       explosionDiv.style.display = "none";
-
-      setTimeout(() => {}, 500);
+      document.getElementById("outcome2").textContent = outcome;
     }, 1000);
     Vine.play();
     setTimeout(() => {
       document.getElementById("outcome").textContent = outcome;
-      document.getElementById("outcome2").textContent = outcome;
       bruh.play();
     }, 3000);
   }, 0);
-  const outcome = determineWinner(player1Choice, player2Choice);
   return outcome;
 }
 
