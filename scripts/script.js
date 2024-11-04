@@ -1,28 +1,12 @@
-import {
-  suits,
-  values,
-  cardValues,
-  relationships,
-  totalRounds,
-  predefinedDecks,
-} from "./constants.js";
-
+import { cardValues, relationships, totalRounds } from "./constants.js";
+import { generatRandomeDeck, generateDeck } from "./decks.js";
 import { blurIn, blurOut } from "./animations.js";
-
-let secondsToSwitch = Number(localStorage.getItem("secondsToSwitch")) || 3;
-let timeoutSecs = secondsToSwitch * 1000;
-console.log(secondsToSwitch);
-
-let gametype = localStorage.getItem("mode") || "normal";
-
-let player1Deck = [];
-let player2Deck = [];
 
 var Vine = new Audio("../assets/Vine.mp3");
 var bruh = new Audio("../assets/Bruh.mp3");
 var zikokim = new Audio("../assets/Zik.mp3");
-
 zikokim.currentTime = 44;
+
 let p1Points = 0;
 let p2Points = 0;
 
@@ -30,6 +14,17 @@ let currentRound = 0;
 
 let player1Choice = null;
 let player2Choice = null;
+
+let gametype = localStorage.getItem("mode") || "normal";
+let secondsToSwitch = Number(localStorage.getItem("secondsToSwitch")) || 3;
+let timeoutSecs = secondsToSwitch * 1000;
+
+function toggleBackground() {
+  document.body.classList.toggle("alt-background");
+}
+
+export let player1Deck = [];
+export let player2Deck = [];
 
 if (gametype == "normal") {
   player1Deck = generateDeck();
@@ -39,41 +34,12 @@ if (gametype == "normal") {
   player2Deck = generatRandomeDeck();
 }
 
-function toggleBackground() {
-  document.body.classList.toggle("alt-background");
-}
-
 function initializeGame() {
   displayDeck("deck-p1", player1Deck, handlePlayer1Choice);
   if (currentRound != 0) {
-    //THIS IS TO RESTART ROUND
     document.getElementById("result").style.display = "none";
     document.getElementById("player-1-deck").style.display = "flex";
     updateScoreDisplay();
-  }
-}
-
-function generateDeck() {
-  const randomIndex = Math.floor(Math.random() * predefinedDecks.length);
-  return predefinedDecks[randomIndex];
-}
-
-function generatRandomeDeck() {
-  let deck = [];
-  suits.forEach((suit) => {
-    values.forEach((value) => {
-      deck.push({ suit, value });
-    });
-  });
-  shuffleDeck(deck);
-  deck.unshift({ suit: "Joker", value: "Joker" });
-  return deck.slice(0, 5);
-}
-
-function shuffleDeck(deck) {
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
   }
 }
 
@@ -91,11 +57,9 @@ function displayDeck(deckId, deck, clickHandler) {
         : `url('../assets/${card.value}_of_${card.suit}.png')`;
 
     cardDiv.onclick = () => clickHandler(card, index);
-    deckDiv.appendChild(cardDiv); // displays card by appending
+    deckDiv.appendChild(cardDiv);
   });
 }
-
-//handlers
 
 function handlePlayer1Choice(card, index) {
   player1Choice = card;
@@ -123,9 +87,7 @@ function handlePlayer2Choice(card, index) {
   player2Deck.splice(index, 1);
   document.getElementById("player-2-deck").style.display = "none";
   const outcome = showResult();
-
   currentRound++;
-
   if (currentRound < totalRounds) {
     setTimeout(() => {
       initializeGame();
@@ -141,7 +103,6 @@ function showResult() {
   const p1CardDiv = document.getElementById("p1-card");
   const p2CardDiv = document.getElementById("p2-card");
 
-  // set background images for result cards
   p1CardDiv.style.backgroundImage =
     player1Choice.suit === "Joker"
       ? `url('../assets/joker.png')`
@@ -152,7 +113,6 @@ function showResult() {
       ? `url('../assets/joker.png')`
       : `url('../assets/${player2Choice.value}_of_${player2Choice.suit}.png')`;
 
-  // trigger animations on result cards
   p1CardDiv.style.animation = "flyInLeft 1s forwards";
   p2CardDiv.style.animation = "flyInRight 1s forwards";
 
@@ -166,22 +126,19 @@ function showResult() {
     const explosionDiv = document.createElement("div");
     explosionDiv.classList.add("explosion");
     document.getElementById("result").appendChild(explosionDiv);
-
-    // remove explosion after it plays, then display the outcome with a delay
     setTimeout(() => {
-      explosionDiv.style.display = "none"; // Hide explosion
+      explosionDiv.style.display = "none";
 
-      setTimeout(() => {}, 500); // delay for the outcome after explosion disappears
-    }, 1000); // explosion duration
+      setTimeout(() => {}, 500);
+    }, 1000);
     Vine.play();
     setTimeout(() => {
       document.getElementById("outcome").textContent = outcome;
       document.getElementById("outcome2").textContent = outcome;
       bruh.play();
     }, 3000);
-  }, 0); // delay before explosion starts
+  }, 0);
   const outcome = determineWinner(player1Choice, player2Choice);
-
   return outcome;
 }
 
@@ -193,13 +150,11 @@ function showFinalResult(winner) {
   const playAgainButton = document.createElement("button");
   playAgainButton.textContent = "Play Again";
   playAgainButton.className = "cool-button";
-  // add a click event listener to navigate to game.html
   zikokim.play();
   playAgainButton.addEventListener("click", function () {
     window.location.href = "game.html";
   });
 
-  // append the button to the final result div
   finalResultDiv.appendChild(playAgainButton);
 }
 
@@ -234,5 +189,4 @@ function determineWinner(card1, card2) {
     return `${winner} wins by value!`;
   }
 }
-
 initializeGame();
