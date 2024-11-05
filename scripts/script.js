@@ -23,6 +23,8 @@ function toggleBackground() {
   document.body.classList.toggle("alt-background");
 }
 
+document.getElementById("mode").textContent = gametype.toUpperCase() + " Mode";
+
 export let player1Deck = [];
 export let player2Deck = [];
 
@@ -36,11 +38,11 @@ if (gametype == "normal") {
 
 function initializeGame() {
   displayDeck("deck-p1", player1Deck, handlePlayer1Choice);
-  document.getElementById("result").style.display = "none";
+  document.getElementById("result").style.display = "none"; //add class
   if (currentRound != 0) {
     document.getElementById("player-1-deck").style.display = "flex";
-    updateScoreDisplay();
   }
+  updateScoreDisplay();
 }
 
 function displayDeck(deckId, deck, clickHandler) {
@@ -118,7 +120,7 @@ function showResult() {
 
   if (currentRound == totalRounds) {
     const winner = p1Points > p2Points ? "Player 1" : "Player 2";
-    const t = p1Points > p2Points ? p1Points-- : p1Points--;
+    winner = "Player 1" ? p1Points-- : p2Points--;
     showFinalResult(winner);
   }
   const outcome = determineWinner(player1Choice, player2Choice);
@@ -159,20 +161,27 @@ function showFinalResult(winner) {
 
 function updateScoreDisplay() {
   document.getElementById("score").textContent = `${p1Points}:${p2Points}`;
+  document.getElementById("liveScore").textContent = `${p1Points}:${p2Points}`;
+}
+
+function addPointsLuck(winner) {
+  winner === "Player 1" ? p1Points++ : p2Points++;
+  return `${winner} WON BY COINFLIP!`;
+}
+
+function addPointsValue(card1, card2) {
+  const winner =
+    cardValues[card1.value] > cardValues[card2.value] ? "Player 1" : "Player 2";
+  winner === "Player 1" ? p1Points++ : p2Points++;
+  return `${winner} wins by value!`;
 }
 
 function determineWinner(card1, card2) {
   if (card1.suit === "Joker" || card2.suit === "Joker") {
     const winner = Math.random() < 0.5 ? "Player 1" : "Player 2";
-    winner === "Player 1" ? p1Points++ : p2Points++;
-    return `${winner} wins by coin flip!`;
+    return addPointsLuck(winner); //abstract with func
   } else if (card1.suit === card2.suit) {
-    const winner =
-      cardValues[card1.value] > cardValues[card2.value]
-        ? "Player 1"
-        : "Player 2";
-    winner === "Player 1" ? p1Points++ : p2Points++;
-    return `${winner} wins by value!`;
+    return addPointsValue(card1, card2);
   } else if (relationships[card1.suit] === card2.suit) {
     p1Points += 1;
     return "Player 1 wins!";
@@ -180,12 +189,7 @@ function determineWinner(card1, card2) {
     p2Points += 1;
     return "Player 2 wins!";
   } else {
-    const winner =
-      cardValues[card1.value] > cardValues[card2.value]
-        ? "Player 1"
-        : "Player 2";
-    winner === "Player 1" ? p1Points++ : p2Points++;
-    return `${winner} wins by value!`;
+    return addPointsValue(card1, card2);
   }
 }
 initializeGame();
