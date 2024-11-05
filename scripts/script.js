@@ -68,15 +68,15 @@ function handlePlayer1Choice(card, index) {
   player1Deck.splice(index, 1);
 
   document.getElementById("player-1-deck").style.display = "none";
-  document.getElementById("switch").style.display = "flex";
-  document.getElementById("await").style.display = "flex";
+  document.getElementById("switch").className = "addFlex";
+  document.getElementById("await").className = "addFlex";
   document.getElementById("await").textContent = `(${secondsToSwitch} seconds)`;
   blurOut();
 
   setTimeout(() => {
     blurIn();
-    document.getElementById("await").style.display = "none";
-    document.getElementById("switch").style.display = "none";
+    document.getElementById("await").className = "hidden";
+    document.getElementById("switch").className = "hidden";
     setTimeout(() => {
       document.getElementById("player-2-deck").style.display = "flex";
       displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
@@ -94,7 +94,7 @@ function handlePlayer2Choice(card, index) {
     setTimeout(() => {
       initializeGame();
       updateScoreDisplay();
-    }, 5000);
+    }, 3000);
   } else {
     showResult();
   }
@@ -120,7 +120,12 @@ function showResult() {
 
   if (currentRound == totalRounds) {
     const winner = p1Points > p2Points ? "Player 1" : "Player 2";
-    winner = "Player 1" ? p1Points-- : p2Points--;
+    if (winner == "Player 1") {
+      p1Points--;
+    } else {
+      p2Points--;
+    }
+    console.log("Starting finalresult");
     showFinalResult(winner);
   }
   const outcome = determineWinner(player1Choice, player2Choice);
