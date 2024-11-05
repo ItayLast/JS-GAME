@@ -45,3 +45,15 @@ export const predefinedDecks = [
     { suit: "Diamonds", value: "Jack" },
   ],
 ];
+
+export const modeDisplay = document.getElementById("mode");
+export const resultDisplay = document.getElementById("result");
+export const player1DeckDisplay = document.getElementById("player-1-deck");
+export const player2DeckDisplay = document.getElementById("player-2-deck");
+export const switchDisplay = document.getElementById("switch");
+export const awaitDisplay = document.getElementById("await");
+export const p1CardDisplay = document.getElementById("p1-card");
+export const p2CardDisplay = document.getElementById("p2-card");
+export const finalResultDisplay = document.getElementById("final-result");
+export const scoreDisplay = document.getElementById("score");
+export const liveScoreDisplay = document.getElementById("liveScore");

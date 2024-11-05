@@ -1,4 +1,19 @@
-import { cardValues, relationships, totalRounds } from "./constants.js";
+import {
+  cardValues,
+  relationships,
+  totalRounds,
+  modeDisplay,
+  resultDisplay,
+  player1DeckDisplay,
+  player2DeckDisplay,
+  switchDisplay,
+  awaitDisplay,
+  p1CardDisplay,
+  p2CardDisplay,
+  finalResultDisplay,
+  scoreDisplay,
+  liveScoreDisplay,
+} from "./constants.js";
 import { generatRandomeDeck, generateDeck } from "./decks.js";
 import { blurIn, blurOut } from "./animations.js";
 
@@ -11,7 +26,6 @@ let p1Points = 0;
 let p2Points = 0;
 
 let currentRound = 0;
-
 let player1Choice = null;
 let player2Choice = null;
 
@@ -19,11 +33,7 @@ let gametype = localStorage.getItem("mode") || "normal";
 let secondsToSwitch = Number(localStorage.getItem("secondsToSwitch")) || 3;
 let timeoutSecs = secondsToSwitch * 1000;
 
-function toggleBackground() {
-  document.body.classList.toggle("alt-background");
-}
-
-document.getElementById("mode").textContent = gametype.toUpperCase() + " Mode";
+modeDisplay.textContent = gametype.toUpperCase() + " Mode";
 
 export let player1Deck = [];
 export let player2Deck = [];
@@ -36,11 +46,16 @@ if (gametype == "normal") {
   player2Deck = generatRandomeDeck();
 }
 
+function toggleBackground() {
+  document.body.classList.toggle("alt-background");
+}
+
 function initializeGame() {
   displayDeck("deck-p1", player1Deck, handlePlayer1Choice);
-  document.getElementById("result").classList.add("hidden"); //add class
+  resultDisplay.classList.add("hidden");
+
   if (currentRound != 0) {
-    document.getElementById("player-1-deck").classList.remove("hidden");
+    player1DeckDisplay.classList.remove("hidden");
   }
   updateScoreDisplay();
 }
@@ -67,18 +82,18 @@ function handlePlayer1Choice(card, index) {
   player1Choice = card;
   player1Deck.splice(index, 1);
 
-  document.getElementById("switch").className = "addFlex";
-  document.getElementById("await").className = "addFlex";
-  document.getElementById("await").textContent = `(${secondsToSwitch} seconds)`;
-  document.getElementById("player-1-deck").classList.add("hidden");
+  switchDisplay.className = "addFlex";
+  awaitDisplay.className = "addFlex";
+  awaitDisplay.textContent = `(${secondsToSwitch} seconds)`;
+  player1DeckDisplay.classList.add("hidden");
   blurOut();
 
   setTimeout(() => {
     blurIn();
-    document.getElementById("await").className = "hidden";
-    document.getElementById("switch").className = "hidden";
+    awaitDisplay.className = "hidden";
+    switchDisplay.className = "hidden";
     setTimeout(() => {
-      document.getElementById("player-2-deck").classList.remove("hidden");
+      player2DeckDisplay.classList.remove("hidden");
       displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
     }, 300);
   }, timeoutSecs);
@@ -87,7 +102,7 @@ function handlePlayer1Choice(card, index) {
 function handlePlayer2Choice(card, index) {
   player2Choice = card;
   player2Deck.splice(index, 1);
-  document.getElementById("player-2-deck").classList.add("hidden");
+  player2DeckDisplay.classList.add("hidden");
   const outcome = showResult();
   currentRound++;
   if (currentRound < totalRounds) {
@@ -101,22 +116,20 @@ function handlePlayer2Choice(card, index) {
 }
 
 function showResult() {
-  document.getElementById("result").classList.remove("hidden");
-  const p1CardDiv = document.getElementById("p1-card");
-  const p2CardDiv = document.getElementById("p2-card");
+  resultDisplay.classList.remove("hidden");
 
-  p1CardDiv.style.backgroundImage =
+  p1CardDisplay.style.backgroundImage =
     player1Choice.suit === "Joker"
       ? `url('../assets/joker.png')`
       : `url('../assets/${player1Choice.value}_of_${player1Choice.suit}.png')`;
 
-  p2CardDiv.style.backgroundImage =
+  p2CardDisplay.style.backgroundImage =
     player2Choice.suit === "Joker"
       ? `url('../assets/joker.png')`
       : `url('../assets/${player2Choice.value}_of_${player2Choice.suit}.png')`;
 
-  p1CardDiv.style.animation = "flyInLeft 1s forwards";
-  p2CardDiv.style.animation = "flyInRight 1s forwards";
+  p1CardDisplay.style.animation = "flyInLeft 1s forwards";
+  p2CardDisplay.style.animation = "flyInRight 1s forwards";
 
   if (currentRound == totalRounds) {
     const winner = p1Points > p2Points ? "Player 1" : "Player 2";
@@ -125,16 +138,16 @@ function showResult() {
     } else {
       p2Points--;
     }
-    console.log("Starting finalresult");
     showFinalResult(winner);
   }
+
   const outcome = determineWinner(player1Choice, player2Choice);
   updateScoreDisplay();
 
   setTimeout(() => {
     const explosionDiv = document.createElement("div");
     explosionDiv.classList.add("explosion");
-    document.getElementById("result").appendChild(explosionDiv);
+    resultDisplay.appendChild(explosionDiv);
     setTimeout(() => {
       explosionDiv.className = "hidden";
       document.getElementById("outcome2").textContent = outcome;
@@ -149,11 +162,10 @@ function showResult() {
 }
 
 function showFinalResult(winner) {
-  const finalResultDiv = document.getElementById("final-result");
-  finalResultDiv.classList.remove("hidden");
-  finalResultDiv.classList.add("addBlock");
+  finalResultDisplay.classList.remove("hidden");
+  finalResultDisplay.classList.add("addBlock");
 
-  finalResultDiv.textContent = ` ${winner} has won overall!`;
+  finalResultDisplay.textContent = ` ${winner} has won overall!`;
   toggleBackground();
   const playAgainButton = document.createElement("button");
   playAgainButton.textContent = "Play Again";
@@ -163,12 +175,12 @@ function showFinalResult(winner) {
     window.location.href = "game.html";
   });
 
-  finalResultDiv.appendChild(playAgainButton);
+  finalResultDisplay.appendChild(playAgainButton);
 }
 
 function updateScoreDisplay() {
-  document.getElementById("score").textContent = `${p1Points}:${p2Points}`;
-  document.getElementById("liveScore").textContent = `${p1Points}:${p2Points}`;
+  scoreDisplay.textContent = `${p1Points}:${p2Points}`;
+  liveScoreDisplay.textContent = `${p1Points}:${p2Points}`;
 }
 
 function addPointsLuck(winner) {
@@ -186,7 +198,7 @@ function addPointsValue(card1, card2) {
 function determineWinner(card1, card2) {
   if (card1.suit === "Joker" || card2.suit === "Joker") {
     const winner = Math.random() < 0.5 ? "Player 1" : "Player 2";
-    return addPointsLuck(winner); //abstract with func
+    return addPointsLuck(winner);
   } else if (card1.suit === card2.suit) {
     return addPointsValue(card1, card2);
   } else if (relationships[card1.suit] === card2.suit) {
@@ -199,4 +211,5 @@ function determineWinner(card1, card2) {
     return addPointsValue(card1, card2);
   }
 }
+
 initializeGame();
