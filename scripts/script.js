@@ -38,9 +38,9 @@ if (gametype == "normal") {
 
 function initializeGame() {
   displayDeck("deck-p1", player1Deck, handlePlayer1Choice);
-  document.getElementById("result").style.display = "none"; //add class
+  document.getElementById("result").classList.add("hidden"); //add class
   if (currentRound != 0) {
-    document.getElementById("player-1-deck").style.display = "flex";
+    document.getElementById("player-1-deck").classList.remove("hidden");
   }
   updateScoreDisplay();
 }
@@ -67,10 +67,10 @@ function handlePlayer1Choice(card, index) {
   player1Choice = card;
   player1Deck.splice(index, 1);
 
-  document.getElementById("player-1-deck").style.display = "none";
   document.getElementById("switch").className = "addFlex";
   document.getElementById("await").className = "addFlex";
   document.getElementById("await").textContent = `(${secondsToSwitch} seconds)`;
+  document.getElementById("player-1-deck").classList.add("hidden");
   blurOut();
 
   setTimeout(() => {
@@ -78,7 +78,7 @@ function handlePlayer1Choice(card, index) {
     document.getElementById("await").className = "hidden";
     document.getElementById("switch").className = "hidden";
     setTimeout(() => {
-      document.getElementById("player-2-deck").style.display = "flex";
+      document.getElementById("player-2-deck").classList.remove("hidden");
       displayDeck("deck-p2", player2Deck, handlePlayer2Choice);
     }, 300);
   }, timeoutSecs);
@@ -87,7 +87,7 @@ function handlePlayer1Choice(card, index) {
 function handlePlayer2Choice(card, index) {
   player2Choice = card;
   player2Deck.splice(index, 1);
-  document.getElementById("player-2-deck").style.display = "none";
+  document.getElementById("player-2-deck").classList.add("hidden");
   const outcome = showResult();
   currentRound++;
   if (currentRound < totalRounds) {
@@ -101,7 +101,7 @@ function handlePlayer2Choice(card, index) {
 }
 
 function showResult() {
-  document.getElementById("result").style.display = "flex";
+  document.getElementById("result").classList.remove("hidden");
   const p1CardDiv = document.getElementById("p1-card");
   const p2CardDiv = document.getElementById("p2-card");
 
@@ -136,7 +136,7 @@ function showResult() {
     explosionDiv.classList.add("explosion");
     document.getElementById("result").appendChild(explosionDiv);
     setTimeout(() => {
-      explosionDiv.style.display = "none";
+      explosionDiv.className = "hidden";
       document.getElementById("outcome2").textContent = outcome;
     }, 1000);
     Vine.play();
@@ -150,7 +150,9 @@ function showResult() {
 
 function showFinalResult(winner) {
   const finalResultDiv = document.getElementById("final-result");
-  finalResultDiv.style.display = "block";
+  finalResultDiv.classList.remove("hidden");
+  finalResultDiv.classList.add("addBlock");
+
   finalResultDiv.textContent = ` ${winner} has won overall!`;
   toggleBackground();
   const playAgainButton = document.createElement("button");
